@@ -15,7 +15,8 @@ jobs:
             make push
 
   deploy:
-    machine: true
+    docker:
+      - image: circleci/node:7.10
     steps:
       - add_ssh_keys:
           fingerprints:
