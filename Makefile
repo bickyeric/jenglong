@@ -1,3 +1,5 @@
+.PHONY: deploy
+
 export VERSION ?= $(shell git show -q --format=%h)
 
 build:
@@ -5,3 +7,7 @@ build:
 
 push:
 	docker push bickyeric/jenglong:$(VERSION)
+
+deploy:
+	envsubst < deploy/template.yml > deploy.yml
+	docker stack deploy --compose-file deploy.yml jenglong
