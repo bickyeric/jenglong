@@ -27,3 +27,15 @@ jobs:
             sudo apt install gettext
       - checkout
       - run: make deploy
+
+workflows:
+  version: 2
+  production:
+    jobs:
+      - build
+      - deploy:
+          # filters:
+          #   branches:
+          #     only: master
+          requires:
+            - build
