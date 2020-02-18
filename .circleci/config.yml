@@ -1,0 +1,42 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:7.10
+
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          command: |
+            make build
+            docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+            make push
+
+  deploy:
+    docker:
+      - image: circleci/golang:latest
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "9f:34:3d:5c:7b:e3:c4:d3:6e:9a:fd:14:21:f0:38:c0"
+      - run:
+          name: Setup Known Host
+          command: |
+            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+            sudo apt install gettext
+      - checkout
+      - run: make deploy
+
+workflows:
+  version: 2
+  production:
+    jobs:
+      - build
+      - deploy:
+          filters:
+            branches:
+              only: master
+          requires:
+            - build

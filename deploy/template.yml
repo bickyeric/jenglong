@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  api:
+    image: bickyeric/jenglong:${VERSION}
+    ports:
+      - "80:80"
