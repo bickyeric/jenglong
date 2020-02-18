@@ -21,6 +21,8 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "9f:34:3d:5c:7b:e3:c4:d3:6e:9a:fd:14:21:f0:38:c0"
+      - setup_remote_docker:
+          version: 18.09.3
       - run:
           name: Setup Known Host
           command: |
