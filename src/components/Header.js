@@ -2,11 +2,11 @@ import React from "react";
 
 const Header = props => {
   return (
-    <header class="masthead mb-auto">
-      <div class="inner">
-        <h3 class="masthead-brand">Arumba</h3>
-        <nav class="nav nav-masthead justify-content-center">
-          <a class="nav-link active">Home</a>
+    <header className="masthead mb-auto">
+      <div className="inner">
+        <h3 className="masthead-brand">Arumba</h3>
+        <nav className="nav nav-masthead justify-content-center">
+          <h5 className="nav-link active">Home</h5>
         </nav>
       </div>
     </header>
