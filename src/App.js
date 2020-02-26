@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { useQuery } from "react-apollo";
 import gql from "graphql-tag";
-import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
 
 const queries = gql`
   query findComics($keyword: String!) {
     comics(name: $keyword){
       id
       name
+      episodes(first:4){
+        no
+        pages{
+          link
+        }
+      }
     }
   }
 `;
 
-function Row(params) {
-  return (
-  <div>{params.comic.name}</div>
-  )
+function handleClick(params) {
+  var page = params[Math.floor(Math.random() * params.length)]
+  console.log(page.link)
+  window.open(page.link, "_blank")
 }
 
 function Results(params) {
@@ -28,10 +31,17 @@ function Results(params) {
   return (
     <div>
       {data.comics.map((comic, i) => (
-        <Row key={i} comic={comic}/>
+        <div key={i} className="card" style={{width: "37em"}}>
+          <div className="card-body">
+            <h5 className="card-title">{comic.name}</h5>
+            {comic.episodes.map((episode, j) => (
+              <p key={j} onClick={(e) => handleClick(episode.pages)} className="btn btn-primary">Episode {episode.no}</p>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
-  );
+  )
 }
 
 class App extends Component{
@@ -52,15 +62,14 @@ class App extends Component{
 
   render() {
     return (
-      <div className="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        {this.state.keyword === '' ? <Header/> : ''}
-        <main role="main" className="inner cover">
-          {this.state.keyword === '' ? <h1 className="cover-heading">Nyari komik????</h1> : ''}
-          <br/>
-          <input type="text" className="form-control" onKeyPress={this.handleEnter} />
-          {this.state.keyword !== '' ? <Results search={this.state.keyword}/> : ''}
-        </main>
-        <Footer/>
+      <div className="d-flex justify-content-center" style={{height:"100vh"}}>
+        <div className={this.state.keyword === '' ? "d-flex align-items-center" : "d-flex"}>
+          <div className="container">
+            <h1 className="text-center">Arumba</h1>
+            <input type="text" className="shadow-sm form-control" style={{height:"2.8em", width:"37em"}} onKeyPress={this.handleEnter}/>
+            {this.state.keyword !== '' ? <Results search={this.state.keyword}/> : ''}
+          </div>
+        </div>
       </div>
     );
   }
