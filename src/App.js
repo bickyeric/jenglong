@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -66,7 +67,12 @@ class App extends Component{
         <div className={this.state.keyword === '' ? "d-flex align-items-center" : "d-flex"}>
           <div className="container">
             <h1 className="text-center">Arumba</h1>
-            <input type="text" className="shadow-sm form-control" style={{height:"2.8em", width:"37em"}} onKeyPress={this.handleEnter}/>
+            <div class="input-group md-form form-sm form-1 pl-0" style={{height:"2.8em", width:"37em"}}>
+              <input type="text" className="shadow-sm form-control" onKeyPress={this.handleEnter} style={{height:"2.8em"}}/>
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-text1"><FontAwesomeIcon icon="search" /></span>
+              </div>
+            </div>
             {this.state.keyword !== '' ? <Results search={this.state.keyword}/> : ''}
           </div>
         </div>
