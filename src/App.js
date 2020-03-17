@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useQuery } from "react-apollo";
 import gql from "graphql-tag";
+import Comic from './components/Comic';
 
 const queries = gql`
   query findComics($keyword: String!) {
@@ -18,12 +19,6 @@ const queries = gql`
   }
 `;
 
-function handleClick(params) {
-  var page = params[Math.floor(Math.random() * params.length)]
-  console.log(page.link)
-  window.open(page.link, "_blank")
-}
-
 function Results(params) {
   const { loading, error, data } = useQuery(queries, { variables: { keyword: params.search } });
 
@@ -32,20 +27,13 @@ function Results(params) {
   return (
     <div>
       {data.comics.map((comic, i) => (
-        <div key={i} className="card" style={{width: "37em"}}>
-          <div className="card-body">
-            <h5 className="card-title">{comic.name}</h5>
-            {comic.episodes.map((episode, j) => (
-              <p key={j} onClick={(e) => handleClick(episode.pages)} className="btn btn-primary">Episode {episode.no}</p>
-            ))}
-          </div>
-        </div>
+        <Comic comic={comic} key={i}/>
       ))}
     </div>
   )
 }
 
-class App extends Component{
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +41,7 @@ class App extends Component{
     }
   }
 
-  handleEnter = e => {
+  searchComic = e => {
     if (e.key === 'Enter') {
       this.setState({
         keyword: e.target.value
@@ -68,7 +56,7 @@ class App extends Component{
           <div className="container">
             <h1 className="text-center">Arumba</h1>
             <div class="input-group md-form form-sm form-1 pl-0" style={{height:"2.8em", width:"37em"}}>
-              <input type="text" className="shadow-sm form-control" onKeyPress={this.handleEnter} style={{height:"2.8em"}}/>
+              <input type="text" className="shadow-sm form-control" onKeyPress={this.searchComic} style={{height:"2.8em"}}/>
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-text1"><FontAwesomeIcon icon="search" /></span>
               </div>
