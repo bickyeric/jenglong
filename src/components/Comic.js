@@ -16,9 +16,9 @@ class Comic extends Component {
 
   render() {
     return (
-      <div className="card" style={{width: "37em"}}>
-        <div className="card-body">
-          <h5 className="card-title">{this.state.comic.name}</h5>
+      <div className="my-3 p-3 bg-white rounded shadow-sm">
+        <h6 className="border-bottom border-gray pb-2 mb-0">{this.state.comic.name}</h6>
+        <div className="mb-0 pt-2">
           {this.state.comic.episodes.map((episode, j) => (
             <p key={j} onClick={(e) => handleClick(episode.pages)} className="btn btn-primary" style={{margin:5}}>Chapter {episode.no}</p>
           ))}
