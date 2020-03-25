@@ -17,7 +17,7 @@ library.add(faCheckSquare, faCoffee, faSearch)
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://arumba.xyz:1907/query'
+    uri: 'http://graph.arumba.xyz/query'
   }),
   cache: new InMemoryCache()
 })

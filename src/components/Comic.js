@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 function handleClick(params) {
   var page = params[Math.floor(Math.random() * params.length)]
-  console.log(page.link)
   window.open(page.link, "_blank")
 }
 
