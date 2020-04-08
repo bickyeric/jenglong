@@ -10,9 +10,13 @@ const queries = gql`
       id
       name
       episodes(first:4){
-        no
-        pages{
-          link
+        edges{
+          node{
+            no
+            pages{
+              link
+            }
+          }
         }
       }
     }
