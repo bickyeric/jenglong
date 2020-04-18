@@ -7,14 +7,18 @@ import Comic from './components/Comic';
 const queries = gql`
   query findComics($keyword: String!) {
     comics(name: $keyword){
-      id
-      name
-      episodes(first:4){
-        edges{
-          node{
-            no
-            pages{
-              link
+      edges{
+        node{
+          id
+          name
+          episodes(first:4){
+            edges{
+              node{
+                no
+                pages{
+                  link
+                }
+              }
             }
           }
         }
@@ -30,8 +34,8 @@ function Results(params) {
   if (error) return <p>Error :(</p>;
   return (
     <div>
-      {data.comics.map((comic, i) => (
-        <Comic comic={comic} key={i}/>
+      {data.comics.edges.map((edge, i) => (
+        <Comic comic={edge.node} key={i}/>
       ))}
     </div>
   )
@@ -59,10 +63,10 @@ class App extends Component {
         <div className={this.state.keyword === '' ? "d-flex align-items-center" : "d-flex"}>
           <div className="container">
             <h1 className="text-center">Arumba</h1>
-            <div class="input-group md-form form-sm form-1 pl-0" style={{height:"2.8em", width:"37em"}}>
+            <div className="input-group md-form form-sm form-1 pl-0" style={{height:"2.8em", width:"37em"}}>
               <input type="text" className="shadow-sm form-control" onKeyPress={this.searchComic} style={{height:"2.8em"}}/>
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-text1"><FontAwesomeIcon icon="search" /></span>
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-text1"><FontAwesomeIcon icon="search" /></span>
               </div>
             </div>
             {this.state.keyword !== '' ? <Results search={this.state.keyword}/> : ''}
